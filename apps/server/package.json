@@ -1,0 +1,63 @@
+{
+	"name": "@acdh-oeaw/app-server",
+	"private": true,
+	"license": "MIT",
+	"type": "module",
+	"engines": {
+		"node": "20.x",
+		"pnpm": "9.x"
+	},
+	"packageManager": "pnpm@9.4.0",
+	"exports": {
+		"./api": {
+			"types": "./dist/app.d.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"format:check": "prettier . --cache --check --ignore-path ../../.gitignore",
+		"format:fix": "pnpm run format:check --write",
+		"lint:check": "eslint . --cache --ext .js,.ts --ignore-path ../../.gitignore",
+		"lint:fix": "pnpm run lint:check --fix",
+		"start": "tsx ./dist/index.js",
+		"test": "exit 0",
+		"types:check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@acdh-oeaw/lib": "^0.1.12",
+		"@hono/node-server": "^1.11.4",
+		"@hono/valibot-validator": "^0.3.0",
+		"hono": "^4.4.8",
+		"valibot": "^0.34.0"
+	},
+	"devDependencies": {
+		"@acdh-oeaw/eslint-config": "^1.0.9",
+		"@acdh-oeaw/eslint-config-node": "^1.0.10",
+		"@acdh-oeaw/prettier-config": "^2.0.0",
+		"@acdh-oeaw/tsconfig": "^1.1.1",
+		"@types/node": "^20.14.8",
+		"eslint": "^8.57.0",
+		"eslint-config-turbo": "^2.0.5",
+		"prettier": "^3.3.2",
+		"tsup": "^8.1.0",
+		"tsx": "^4.15.7",
+		"typescript": "^5.5.2"
+	},
+	"eslintConfig": {
+		"extends": [
+			"turbo",
+			"@acdh-oeaw/eslint-config",
+			"@acdh-oeaw/eslint-config/strict",
+			"@acdh-oeaw/eslint-config-node"
+		]
+	},
+	"lint-staged": {
+		"*.@(js|ts)": [
+			"eslint --cache --fix",
+			"prettier --cache --write"
+		],
+		"*.!(js|ts)": "prettier --cache --ignore-unknown --write"
+	},
+	"prettier": "@acdh-oeaw/prettier-config"
+}

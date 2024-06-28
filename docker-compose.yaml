@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  client:
+    container_name: acd-ch-client
+    depends_on:
+      - server
+    build:
+      context: .
+      dockerfile: ./apps/client/Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - acdh-ch-app
+
+  server:
+    container_name: acdh-ch-server
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: ./apps/server/Dockerfile
+    restart: always
+    ports:
+      - 5000:5000
+    networks:
+      - acdh-ch-app
+
+  db:
+    container_name: acdh-ch-db
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - acdh-ch-app
+    env:
+      POSTGRES_DB: acdh-ch-app
+      POSTGRES_USER: acdh-ch-app
+      POSTGRES_PASSWORD: acdh-ch-app
+
+networks:
+  acdh-ch-app:
+    external: true

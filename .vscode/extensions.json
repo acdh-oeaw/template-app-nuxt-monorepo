@@ -1,0 +1,15 @@
+{
+	"recommendations": [
+		"bradlc.vscode-tailwindcss",
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"esbenp.prettier-vscode",
+		"lokalise.i18n-ally",
+		"mikestead.dotenv",
+		"ms-playwright.playwright",
+		"nuxt.mdc",
+		"stylelint.vscode-stylelint",
+		"vercel.turbo-vsc",
+		"vue.volar"
+	]
+}

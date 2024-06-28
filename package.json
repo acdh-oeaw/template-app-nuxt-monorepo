@@ -1,0 +1,43 @@
+{
+	"name": "@acdh-oeaw/app",
+	"private": true,
+	"license": "MIT",
+	"type": "module",
+	"engines": {
+		"node": "20.x",
+		"pnpm": "9.x"
+	},
+	"packageManager": "pnpm@9.4.0",
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"format:check": "prettier . \"!./apps/client/content/**\" --cache --check --ignore-path ./.gitignore",
+		"format:fix": "pnpm run format:check --write",
+		"lint:check": "turbo run lint:check",
+		"lint:fix": "turbo run lint:fix",
+		"preinstall": "npx only-allow pnpm",
+		"prepare": "run-s setup",
+		"setup": "is-ci || simple-git-hooks",
+		"test": "turbo run test",
+		"test:e2e": "turbo run test:e2e",
+		"test:e2e:update-snapshots": "turbo run test:e2e --update-snapshots",
+		"types:check": "turbo run types:check",
+		"validate": "turbo run format:check lint:check types:check test test:e2e"
+	},
+	"devDependencies": {
+		"@acdh-oeaw/prettier-config": "^2.0.0",
+		"is-ci": "^3.0.1",
+		"lint-staged": "^15.2.7",
+		"npm-run-all2": "^6.2.0",
+		"prettier": "^3.3.2",
+		"simple-git-hooks": "^2.11.1",
+		"turbo": "^2.0.5"
+	},
+	"lint-staged": {
+		"*": "prettier --cache --ignore-unknown --write"
+	},
+	"prettier": "@acdh-oeaw/prettier-config",
+	"simple-git-hooks": {
+		"pre-commit": "pnpm exec lint-staged"
+	}
+}
