@@ -1,58 +1,35 @@
-import * as v from "valibot";
+import sqlite from "better-sqlite3";
 
-export const EntitySchema = v.object({
-	id: v.pipe(v.string(), v.minLength(1)),
-	label: v.pipe(v.string(), v.minLength(1)),
-});
+export const db = sqlite(":memory:");
 
-export const EntityInputSchema = v.omit(EntitySchema, ["id"]);
+db.exec(`CREATE TABLE IF NOT EXISTS users (
+	id TEXT NOT NULL PRIMARY KEY,
+	email TEXT NOT NULL UNIQUE,
+	password_hash TEXT NOT NULL
+)`);
 
-type Entity = v.InferOutput<typeof EntitySchema>;
+db.exec(`CREATE TABLE IF NOT EXISTS sessions (
+	id TEXT NOT NULL PRIMARY KEY,
+	expires_at INTEGER NOT NULL,
+	user_id TEXT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id)
+)`);
 
-type EntityInput = v.InferInput<typeof EntityInputSchema>;
+db.exec(`CREATE TABLE IF NOT EXISTS password_reset_tokens (
+	token_hash TEXT NOT NULL UNIQUE,
+	expires_at INTEGER NOT NULL,
+	user_id TEXT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id)
+)`);
 
-const entities = new Map<Entity["id"], Entity>();
-
-const db = {
-	entities,
-};
-
-export async function getEntities(): Promise<Array<Entity>> {
-	const entities = Array.from(db.entities.values());
-	return Promise.resolve(entities);
+export interface DatabaseUser {
+	id: string;
+	email: string;
+	password_hash: string;
 }
 
-export async function createEntity(input: EntityInput): Promise<Entity> {
-	// eslint-disable-next-line n/no-unsupported-features/node-builtins
-	const entity = { ...input, id: crypto.randomUUID() };
-	db.entities.set(entity.id, entity);
-	return Promise.resolve(entity);
-}
-
-export async function getEntity(id: Entity["id"]): Promise<Entity | null> {
-	if (!db.entities.has(id)) {
-		return null;
-	}
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const entity = db.entities.get(id)!;
-	return Promise.resolve(entity);
-}
-
-export async function updateEntity(id: Entity["id"], input: EntityInput): Promise<Entity | null> {
-	if (!db.entities.has(id)) {
-		return null;
-	}
-	const entity = { ...input, id };
-	db.entities.set(entity.id, entity);
-	return Promise.resolve(entity);
-}
-
-export async function deleteEntity(id: Entity["id"]): Promise<Entity | null> {
-	if (!db.entities.has(id)) {
-		return null;
-	}
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const entity = db.entities.get(id)!;
-	db.entities.delete(id);
-	return Promise.resolve(entity);
+export interface PasswordResetToken {
+	expires_at: number;
+	token_hash: string;
+	user_id: string;
 }

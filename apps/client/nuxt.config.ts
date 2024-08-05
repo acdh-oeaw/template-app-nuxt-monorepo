@@ -23,7 +23,12 @@ export default defineNuxtConfig({
 		defaultLocale,
 		locales: Object.keys(localesMap),
 	},
-	css: ["@fontsource-variable/inter/slnt.css", "tailwindcss/tailwind.css", "@/styles/index.css"],
+	css: [
+		"@fontsource-variable/inter/standard.css",
+		"@fontsource-variable/inter/standard-italic.css",
+		"tailwindcss/tailwind.css",
+		"@/styles/index.css",
+	],
 	devtools: {
 		enabled: true,
 	},
@@ -76,7 +81,6 @@ export default defineNuxtConfig({
 		},
 	},
 	runtimeConfig: {
-		NODE_ENV: process.env.NODE_ENV,
 		public: {
 			apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
 			appBaseUrl: process.env.NUXT_PUBLIC_APP_BASE_URL,

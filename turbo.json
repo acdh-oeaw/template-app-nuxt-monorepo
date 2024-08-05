@@ -12,16 +12,23 @@
 			"dependsOn": ["@acdh-oeaw/app-server#build"],
 			"persistent": true
 		},
-		"//#format:check": {},
-		"//#format:fix": {},
+		"//#format:check": {
+			"outputs": [".prettiercache"]
+		},
+		"//#format:fix": {
+			"outputs": [".prettiercache"]
+		},
 		"lint:check": {
-			"dependsOn": ["^lint:check"]
+			"dependsOn": ["^lint:check"],
+			"outputs": [".eslintcache", ".stylelintcache"]
 		},
 		"lint:fix": {
-			"dependsOn": ["^lint:fix"]
+			"dependsOn": ["^lint:fix"],
+			"outputs": [".eslintcache", ".stylelintcache"]
 		},
 		"types:check": {
-			"dependsOn": ["^types:check"]
+			"dependsOn": ["^types:check"],
+			"outputs": ["*.tsbuildinfo"]
 		},
 		"test:e2e": {
 			"dependsOn": ["build"]

@@ -7,16 +7,16 @@
 		"node": "20.x",
 		"pnpm": "9.x"
 	},
-	"packageManager": "pnpm@9.4.0",
+	"packageManager": "pnpm@9.6.0",
 	"exports": {
-		"./api": {
+		"./app": {
 			"types": "./dist/app.d.ts"
 		}
 	},
 	"scripts": {
 		"build": "tsup",
 		"dev": "tsup --watch",
-		"format:check": "prettier . --cache --check --ignore-path ../../.gitignore",
+		"format:check": "prettier . --cache --check --cache-location ./.prettiercache --ignore-path ../../.gitignore",
 		"format:fix": "pnpm run format:check --write",
 		"lint:check": "eslint . --cache --ext .js,.ts --ignore-path ../../.gitignore",
 		"lint:fix": "pnpm run lint:check --fix",
@@ -25,24 +25,32 @@
 		"types:check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@acdh-oeaw/lib": "^0.1.12",
-		"@hono/node-server": "^1.11.4",
+		"@acdh-oeaw/lib": "catalog:",
+		"@hono/node-server": "^1.12.0",
 		"@hono/valibot-validator": "^0.3.0",
-		"hono": "^4.4.8",
-		"valibot": "^0.34.0"
+		"@lucia-auth/adapter-sqlite": "^3.0.2",
+		"@node-rs/argon2": "^1.8.3",
+		"better-sqlite3": "^11.1.2",
+		"hono": "catalog:",
+		"lucia": "^3.2.0",
+		"nodemailer": "^6.9.14",
+		"oslo": "^1.2.1",
+		"valibot": "catalog:"
 	},
 	"devDependencies": {
-		"@acdh-oeaw/eslint-config": "^1.0.9",
-		"@acdh-oeaw/eslint-config-node": "^1.0.10",
-		"@acdh-oeaw/prettier-config": "^2.0.0",
-		"@acdh-oeaw/tsconfig": "^1.1.1",
-		"@types/node": "^20.14.8",
-		"eslint": "^8.57.0",
-		"eslint-config-turbo": "^2.0.5",
-		"prettier": "^3.3.2",
-		"tsup": "^8.1.0",
-		"tsx": "^4.15.7",
-		"typescript": "^5.5.2"
+		"@acdh-oeaw/eslint-config": "catalog:",
+		"@acdh-oeaw/eslint-config-node": "^1.0.12",
+		"@acdh-oeaw/prettier-config": "catalog:",
+		"@acdh-oeaw/tsconfig": "catalog:",
+		"@types/better-sqlite3": "^7.6.11",
+		"@types/node": "catalog:",
+		"@types/nodemailer": "^6.4.15",
+		"eslint": "catalog:",
+		"eslint-config-turbo": "catalog:",
+		"prettier": "catalog:",
+		"tsup": "^8.2.4",
+		"tsx": "^4.16.5",
+		"typescript": "catalog:"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -55,9 +63,9 @@
 	"lint-staged": {
 		"*.@(js|ts)": [
 			"eslint --cache --fix",
-			"prettier --cache --write"
+			"prettier --cache --cache-location ./.prettiercache --write"
 		],
-		"*.!(js|ts)": "prettier --cache --ignore-unknown --write"
+		"*.!(js|ts)": "prettier --cache --cache-location ./.prettiercache --ignore-unknown --write"
 	},
 	"prettier": "@acdh-oeaw/prettier-config"
 }

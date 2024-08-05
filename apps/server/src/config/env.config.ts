@@ -2,6 +2,14 @@ import { log } from "@acdh-oeaw/lib";
 import * as v from "valibot";
 
 const schema = v.object({
+	APP_BASE_URL: v.pipe(v.string(), v.url()),
+	EMAIL_ADDRESS: v.optional(v.pipe(v.string(), v.email())),
+	EMAIL_SMTP_PORT: v.optional(
+		v.pipe(v.unknown(), v.transform(Number), v.number(), v.integer(), v.minValue(1)),
+	),
+	EMAIL_SMTP_SERVER: v.optional(v.pipe(v.string(), v.nonEmpty())),
+	EMAIL_SMTP_USERNAME: v.optional(v.pipe(v.string(), v.nonEmpty())),
+	EMAIL_SMTP_PASSWORD: v.optional(v.pipe(v.string(), v.nonEmpty())),
 	PORT: v.optional(
 		v.pipe(v.unknown(), v.transform(Number), v.number(), v.integer(), v.minValue(3001)),
 		5000,
